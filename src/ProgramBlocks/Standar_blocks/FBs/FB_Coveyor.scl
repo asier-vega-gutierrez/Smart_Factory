@@ -1,0 +1,40 @@
+﻿FUNCTION_BLOCK "FB_Coveyor"
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+   VAR_INPUT 
+      in_sensor_in : Bool;
+      in_sensor_out : Bool;
+   END_VAR
+
+   VAR_OUTPUT 
+      out_busy : Bool;
+   END_VAR
+
+   VAR 
+      busy : Bool;
+      cont : Int;
+      speed : Int;
+   END_VAR
+
+
+BEGIN
+	
+	//Si algo entra por el sensor de entrda entonces al cinta pasa a tener trabajo
+	IF #in_sensor_in THEN
+	    #busy := TRUE;
+	    #cont := #cont + 1;
+	END_IF;
+	
+	//siempre y cunado la suma solo de uno (solo hay un objeto en cinta) si sale algo de la cinta pasa a no tener trabajo
+	IF #in_sensor_out AND #cont = 1 THEN
+	    #busy := FALSE;
+	END_IF;
+	
+	//Si al go sale se el resta uno
+	IF #in_sensor_out THEN
+	    #cont := #cont - 1;
+	END_IF;
+	
+	#out_busy := #busy;
+END_FUNCTION_BLOCK
+

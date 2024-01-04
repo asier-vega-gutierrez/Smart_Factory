@@ -1,0 +1,275 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Document>
+  <Engineering version="V18" />
+  <SW.Tags.PlcTagTable ID="0">
+    <AttributeList>
+      <Name>AI</Name>
+    </AttributeList>
+    <ObjectList>
+      <SW.Tags.PlcTag ID="1" CompositionName="Tags">
+        <AttributeList>
+          <DataTypeName>Int</DataTypeName>
+          <ExternalAccessible>true</ExternalAccessible>
+          <ExternalVisible>true</ExternalVisible>
+          <ExternalWritable>true</ExternalWritable>
+          <LogicalAddress>%IW2</LogicalAddress>
+          <Name>ina_InductiveResult</Name>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="2" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="3" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Tags.PlcTag>
+      <SW.Tags.PlcTag ID="4" CompositionName="Tags">
+        <AttributeList>
+          <DataTypeName>Int</DataTypeName>
+          <ExternalAccessible>true</ExternalAccessible>
+          <ExternalVisible>true</ExternalVisible>
+          <ExternalWritable>true</ExternalWritable>
+          <LogicalAddress>%IW4</LogicalAddress>
+          <Name>ina_1</Name>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="5" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="6" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Tags.PlcTag>
+      <SW.Tags.PlcTag ID="7" CompositionName="Tags">
+        <AttributeList>
+          <DataTypeName>Int</DataTypeName>
+          <ExternalAccessible>true</ExternalAccessible>
+          <ExternalVisible>true</ExternalVisible>
+          <ExternalWritable>true</ExternalWritable>
+          <LogicalAddress>%IW7</LogicalAddress>
+          <Name>in_BaseAxis</Name>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="8" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="9" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Tags.PlcTag>
+      <SW.Tags.PlcTag ID="A" CompositionName="Tags">
+        <AttributeList>
+          <DataTypeName>Int</DataTypeName>
+          <ExternalAccessible>true</ExternalAccessible>
+          <ExternalVisible>true</ExternalVisible>
+          <ExternalWritable>true</ExternalWritable>
+          <LogicalAddress>%IW10</LogicalAddress>
+          <Name>ina_Arm1Axis</Name>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="B" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="C" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Tags.PlcTag>
+      <SW.Tags.PlcTag ID="D" CompositionName="Tags">
+        <AttributeList>
+          <DataTypeName>Int</DataTypeName>
+          <ExternalAccessible>true</ExternalAccessible>
+          <ExternalVisible>true</ExternalVisible>
+          <ExternalWritable>true</ExternalWritable>
+          <LogicalAddress>%IW12</LogicalAddress>
+          <Name>ina_Arm2Axis</Name>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="E" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="F" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Tags.PlcTag>
+      <SW.Tags.PlcTag ID="10" CompositionName="Tags">
+        <AttributeList>
+          <DataTypeName>Int</DataTypeName>
+          <ExternalAccessible>true</ExternalAccessible>
+          <ExternalVisible>true</ExternalVisible>
+          <ExternalWritable>true</ExternalWritable>
+          <LogicalAddress>%IW14</LogicalAddress>
+          <Name>ina_Arm3Axis</Name>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="11" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="12" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Tags.PlcTag>
+      <SW.Tags.PlcTag ID="13" CompositionName="Tags">
+        <AttributeList>
+          <DataTypeName>Int</DataTypeName>
+          <ExternalAccessible>true</ExternalAccessible>
+          <ExternalVisible>true</ExternalVisible>
+          <ExternalWritable>true</ExternalWritable>
+          <LogicalAddress>%IW16</LogicalAddress>
+          <Name>ina_ToolAxis</Name>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="14" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="15" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Tags.PlcTag>
+      <SW.Tags.PlcTag ID="16" CompositionName="Tags">
+        <AttributeList>
+          <DataTypeName>Int</DataTypeName>
+          <ExternalAccessible>true</ExternalAccessible>
+          <ExternalVisible>true</ExternalVisible>
+          <ExternalWritable>true</ExternalWritable>
+          <LogicalAddress>%IW18</LogicalAddress>
+          <Name>ina_7</Name>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="17" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="18" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Tags.PlcTag>
+      <SW.Tags.PlcTag ID="19" CompositionName="Tags">
+        <AttributeList>
+          <DataTypeName>Int</DataTypeName>
+          <ExternalAccessible>true</ExternalAccessible>
+          <ExternalVisible>true</ExternalVisible>
+          <ExternalWritable>true</ExternalWritable>
+          <LogicalAddress>%IW20</LogicalAddress>
+          <Name>ina_8</Name>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="1A" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="1B" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Tags.PlcTag>
+      <SW.Tags.PlcTag ID="1C" CompositionName="Tags">
+        <AttributeList>
+          <DataTypeName>Int</DataTypeName>
+          <ExternalAccessible>true</ExternalAccessible>
+          <ExternalVisible>true</ExternalVisible>
+          <ExternalWritable>true</ExternalWritable>
+          <LogicalAddress>%IW22</LogicalAddress>
+          <Name>ina_9</Name>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="1D" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="1E" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Tags.PlcTag>
+      <SW.Tags.PlcTag ID="1F" CompositionName="Tags">
+        <AttributeList>
+          <DataTypeName>Int</DataTypeName>
+          <ExternalAccessible>true</ExternalAccessible>
+          <ExternalVisible>true</ExternalVisible>
+          <ExternalWritable>true</ExternalWritable>
+          <LogicalAddress>%IW26</LogicalAddress>
+          <Name>ina_HorizontalAxis</Name>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="20" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="21" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Tags.PlcTag>
+      <SW.Tags.PlcTag ID="22" CompositionName="Tags">
+        <AttributeList>
+          <DataTypeName>Int</DataTypeName>
+          <ExternalAccessible>true</ExternalAccessible>
+          <ExternalVisible>true</ExternalVisible>
+          <ExternalWritable>true</ExternalWritable>
+          <LogicalAddress>%IW28</LogicalAddress>
+          <Name>ina_VerticalAxis</Name>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="23" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="24" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Tags.PlcTag>
+    </ObjectList>
+  </SW.Tags.PlcTagTable>
+</Document>

@@ -1,0 +1,45 @@
+﻿FUNCTION "FC_Fifo" : Void
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+   VAR_IN_OUT 
+      Fifo : "udt_Fifo";
+   END_VAR
+
+   VAR_TEMP 
+      cont_for : Int;
+   END_VAR
+
+
+BEGIN
+	
+	//Entrada de datos a la lista fifo
+	IF #Fifo.Entrada.inserccion THEN
+	    FOR #cont_for := 0 TO #Fifo.Entrada.longitud DO
+	        IF #Fifo.buffer[#cont_for] = 0 THEN
+	            #Fifo.buffer[#cont_for] := #Fifo.Entrada.elemento;
+	            EXIT;
+	        END_IF;
+	    END_FOR;
+	END_IF;
+	
+	//Salida de datos de la lista fifo
+	IF #Fifo.Entrada.extraccion THEN
+	    #Fifo.Salidas.elemento := #Fifo.buffer[0];
+	    #Fifo.buffer[0] := 0;
+	    FOR #cont_for := 0 TO #Fifo.Entrada.longitud - 1 DO
+	        IF #Fifo.buffer[#cont_for] = 0 THEN
+	            #Fifo.buffer[#cont_for] := #Fifo.buffer[#cont_for + 1];
+	            #Fifo.buffer[#cont_for + 1] := 0;
+	        END_IF;
+	    END_FOR;
+	END_IF;
+	
+	//Reset de la lista fifo
+	IF #Fifo.Entrada.reset THEN
+	    FOR #cont_for := 0 TO #Fifo.Entrada.longitud DO
+	        #Fifo.buffer[#cont_for] := 0;
+	    END_FOR;
+	    #Fifo.Salidas.elemento := 0;
+	END_IF;
+END_FUNCTION
+

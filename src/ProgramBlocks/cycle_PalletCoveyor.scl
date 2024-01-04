@@ -1,0 +1,77 @@
+﻿FUNCTION "cycle_PalletCoveyor" : Void
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+
+BEGIN
+	
+	
+	
+	"Data".timers[0].TON(IN := "Data".time_trigers[0],
+	                     PT := T#3s);
+	
+	//Ciclo de cintas transportadoras de entrada de pallets
+	CASE "Data".steps_PelletCoveyor OF
+	        
+	        (*Etapa de inicio de ciclo, se generan los objetos ne las cintas*)
+	    1:
+	        IF NOT "DB_DI".in_PhCell_1 AND NOT "DB_FB_Coveyor_0".busy THEN
+	            "DB_DQ"."out_GenPallet" := TRUE;
+	        END_IF;
+	        IF "DB_DI".in_PhCell_0 OR "DB_FB_Coveyor_0".busy THEN
+	            "Data".steps_PelletCoveyor := 2;
+	        END_IF;
+	        
+	        (*Etapa de inicio de movimiento, siempre que alguna cinta se encuetre con trabajo se inicia*)
+	    2:
+	        IF "DB_FB_Coveyor_0".busy OR "DB_FB_Coveyor_4".busy OR "DB_FB_Coveyor_4".busy THEN
+	            "Data".status_pallet_movement := True;
+	            IF "DB_DQ".out_Cov_0 OR "DB_DQ".out_Cov_4 OR "DB_DQ".out_Cov_5 THEN
+	                "Data".steps_PelletCoveyor := 3;
+	            END_IF;
+	        END_IF;
+	        
+	        (*Etapa de movimiento principal, se generan objetos y se mantien el moveimiento, hasta el paro*)
+	    3:
+	        "Data".status_pallet_movement := True;
+	        "DB_DQ".out_GenPallet := FALSE;
+	        IF NOT "DB_DI".in_PhCell_1 AND NOT "DB_FB_Coveyor_0".busy THEN
+	            "DB_DQ".out_GenPallet := TRUE;
+	        END_IF;
+	        IF "DB_DI".in_PhCell_1 THEN
+	            "Data".steps_PelletCoveyor := 3;
+	        END_IF;
+	        IF "DB_DI".PhCell_1_p THEN
+	            "Data".steps_PelletCoveyor := 4;
+	        END_IF;
+	        IF "DB_DI".in_SelStop THEN
+	            "Data".last_step_PalletCoveyor := "Data".steps_PelletCoveyor;
+	            "Data".steps_PelletCoveyor := 99;
+	        END_IF;
+	        
+	        (*Etapa de espera al robot, para esperar al ciclo del robot*)
+	    4:
+	        "Data".status_pallet_movement := FALSE;
+	        IF "DB_DI".in_PhCell_8 THEN
+	            "Data".time_trigers[0] := TRUE;
+	            IF "Data".timers[0].Q THEN
+	                "Data".time_trigers[0] := FALSE;
+	                "Data".status_pallet_movement := TRUE;
+	                "Data".steps_PelletCoveyor := 3;
+	            END_IF;
+	        END_IF;
+	        IF "DB_DI".in_SelStop THEN
+	            "Data".last_step_PalletCoveyor := "Data".steps_PelletCoveyor;
+	            "Data".steps_PelletCoveyor := 99;
+	        END_IF;
+	        
+	        
+	        (*Etapa de paro, se para la maquina y se espera a volver a pulsar inicio*)
+	    99:
+	        "Data".status_pallet_movement := FALSE;
+	        IF NOT "DB_DQ".out_Cov_0 AND NOT "DB_DQ".out_Cov_4 AND NOT "DB_DQ".out_Cov_5 THEN
+	            "Data".steps_main := 0;
+	        END_IF;
+	        
+	END_CASE;
+END_FUNCTION
+

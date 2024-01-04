@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Document>
+  <Engineering version="V18" />
+  <SW.Tags.PlcTagTable ID="0">
+    <AttributeList>
+      <Name>Default tag table</Name>
+    </AttributeList>
+  </SW.Tags.PlcTagTable>
+</Document>

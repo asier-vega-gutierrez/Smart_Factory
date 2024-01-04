@@ -1,0 +1,62 @@
+﻿FUNCTION_BLOCK "FB_Robot"
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+   VAR_INPUT 
+      in_waypoint : Int;
+      in_speed : Int;
+   END_VAR
+
+   VAR_OUTPUT 
+      out_succes : Bool;
+   END_VAR
+
+   VAR DB_SPECIFIC
+      waypoints { S7_SetPoint := 'False'} : Array[0..15] of "udt_Waypoint" := [(0.0, 0.0, 0.0, 0.0, 0.0), (0.0, 0.0, 0.0, 0.0, 0.0), (0.0, 0.0, 0.0, 0.0, 0.0), (0.0, 0.0, 0.0, 0.0, 0.0), (0.0, 0.0, 0.0, 0.0, 0.0), ((), (), (), (), ()), ((), (), (), (), ()), ((), (), (), (), ()), ((), (), (), (), ()), ((), (), (), (), ()), ((), (), (), (), ()), ((), (), (), (), ()), ((), (), (), (), ()), ((), (), (), (), ()), ((), (), (), (), ()), ((), (), (), (), ())];
+   END_VAR
+
+   VAR_TEMP 
+      status_succes : Bool;
+   END_VAR
+
+
+BEGIN
+	//Pasamor los valors del waypoint seleeccionado a las salidas del robot
+	"DB_AQ".outa_BaseAxis := #waypoints[#in_waypoint].baseAxis;
+	"DB_AQ".outa_Arm1Axis := #waypoints[#in_waypoint].arm1Axis;
+	"DB_AQ".outa_Arm2Axis := #waypoints[#in_waypoint].arm2Axis;
+	"DB_AQ".outa_Arm3Axis := #waypoints[#in_waypoint].arm3Axis;
+	"DB_AQ".outa_ToolAxis := #waypoints[#in_waypoint].toolAxis;
+	
+	//Pasamos la salida a las salidas del robot
+	"DB_AQ".outa_BaseSpeed := #in_speed;
+	"DB_AQ".outa_Arm1Speed := #in_speed;
+	"DB_AQ".outa_Arm2Speed := #in_speed;
+	"DB_AQ".outa_Arm3Speed := #in_speed;
+	"DB_AQ".outa_ToolSpeed := #in_speed;
+	
+	//No se recive un succes TRUE hasta que se compruebe que todos los sensores de entrada del robot dan el valor del waypoint
+	IF #waypoints[#in_waypoint].baseAxis <> DINT_TO_INT(ROUND("DB_AI".ina_BaseAxis)) THEN
+	    #status_succes := FALSE;
+	ELSE
+	    IF #waypoints[#in_waypoint].arm1Axis <> DINT_TO_INT(ROUND("DB_AI".ina_Arm1Axis)) THEN
+	        #status_succes := FALSE;
+	    ELSE
+	        IF #waypoints[#in_waypoint].arm2Axis <> DINT_TO_INT(ROUND("DB_AI".ina_Arm2Axis)) THEN
+	            #status_succes := FALSE;
+	        ELSE
+	            IF #waypoints[#in_waypoint].arm3Axis <> DINT_TO_INT(ROUND("DB_AI".ina_Arm3Axis)) THEN
+	                #status_succes := FALSE;
+	            ELSE
+	                IF #waypoints[#in_waypoint].toolAxis <> DINT_TO_INT(ROUND("DB_AI".ina_ToolAxis)) THEN
+	                    #status_succes := FALSE;
+	                ELSE
+	                    #status_succes := TRUE;
+	                END_IF;
+	            END_IF;
+	        END_IF;
+	    END_IF;
+	END_IF;
+	
+	#out_succes := #status_succes;
+END_FUNCTION_BLOCK
+

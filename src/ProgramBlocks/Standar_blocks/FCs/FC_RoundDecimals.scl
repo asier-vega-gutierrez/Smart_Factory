@@ -1,0 +1,32 @@
+﻿FUNCTION "FC_RoundDecimals" : Real
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+   VAR_INPUT 
+      in_real : Real;
+      in_decimals : Int;   // default 1 decimal
+   END_VAR
+
+   VAR_TEMP 
+      calculated : Real;
+      decimals : Int;
+      cnt_for : Int;
+   END_VAR
+
+
+BEGIN
+	
+	
+	//Este metodo redondea los decimales segun al variable indecimals
+	
+	#decimals := 10;
+	    
+	FOR #cnt_for := 2 TO #in_decimals DO
+	    #decimals := #decimals * 10;
+	END_FOR;
+	
+	#calculated := ROUND(#in_real * #decimals);
+	#calculated := #calculated / #decimals;
+	
+	#FC_RoundDecimals := #calculated;
+END_FUNCTION
+

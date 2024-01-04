@@ -1,0 +1,46 @@
+﻿FUNCTION "FC_FindStorePlace" : Void
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+   VAR_INPUT 
+      in_storer : Array[0..5] of "udt_StoreRow";
+   END_VAR
+
+   VAR_OUTPUT 
+      out_horizontalPoint : Int;
+      out_VerticalPoint : Int;
+   END_VAR
+
+   VAR_TEMP 
+      row : "udt_StoreRow";
+      cnt_for_0 : Int;
+      cnt_for_1 : Int;
+      temp_horizontal : Int;
+      temp_vertical : Int;
+   END_VAR
+
+
+BEGIN
+	
+	//Se recorre las posiciones del array doble buscando el primer hueco libre desde abajo
+	FOR #cnt_for_0 := 5 TO 0 BY -1 DO
+	    #row := #in_storer[#cnt_for_0];
+	    FOR #cnt_for_1 := 5 TO 0 BY -1 DO
+	        IF #row.places[#cnt_for_1] = FALSE THEN
+	            #temp_vertical := #cnt_for_0;
+	            #temp_horizontal := #cnt_for_1;
+	            EXIT;
+	        END_IF;
+	    END_FOR;
+	END_FOR;
+	
+	#out_VerticalPoint := #temp_vertical;
+	#out_horizontalPoint := #temp_horizontal;
+	
+	
+	
+	    
+	
+	
+	
+END_FUNCTION
+

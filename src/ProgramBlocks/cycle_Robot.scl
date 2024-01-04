@@ -1,0 +1,180 @@
+﻿FUNCTION "cycle_Robot" : Void
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+   VAR_TEMP 
+      succes : Bool;
+   END_VAR
+
+
+BEGIN
+	
+	
+	#succes := FALSE;
+	
+	CASE "Data".steps_Robot OF
+	        
+	        (*Posicion home*)
+	    1:
+	        "Data".status_robot_movement := TRUE;
+	        "DB_FB_Robot_0"(in_waypoint := 0,
+	                        in_speed := 10,
+	                        out_succes => #succes);
+	        IF #succes THEN
+	            "Data".steps_Robot := 2;
+	        END_IF;
+	        
+	        (*Posicion listo para cojer*)
+	    2:
+	        "Data".status_robot_movement := TRUE;
+	        "DB_FB_Robot_0"(in_waypoint := 1,
+	                        in_speed := 10,
+	                        out_succes => #succes);
+	        IF #succes AND "DB_DI".in_PhCell_5  AND NOT "Data".status_storer_movement THEN
+	            //La varaiable extraida, elemento, se mantiene el mismo para esta y la sigueitne condicion de colocado
+	            //NO extraer desde otra fuente, elementos de esta lista
+	            "Data".fifo_boxes.Entrada.extraccion := TRUE;
+	            "FC_Fifo"("Data".fifo_boxes);
+	            "Data".fifo_boxes.Entrada.extraccion := FALSE;
+	            //En funcion de esta clasiicacion se realiza un movimiento u otro
+	            IF "Data".fifo_boxes.Salidas.elemento = 1 THEN
+	                "Data".steps_Robot := 31;
+	            ELSIF "Data".fifo_boxes.Salidas.elemento = 2 THEN
+	                "Data".steps_Robot := 32;
+	            ELSIF "Data".fifo_boxes.Salidas.elemento = 3 THEN
+	                "Data".steps_Robot := 33;
+	            END_IF;
+	        END_IF;
+	        
+	        (*Posicion cojer*)
+	    31:
+	        //mediana
+	        "Data".status_robot_movement := TRUE;
+	        "DB_FB_Robot_0"(in_waypoint := 2,
+	                        in_speed := 10,
+	                        out_succes => #succes);
+	        IF #succes THEN
+	            "Data".steps_Robot := 4;
+	        END_IF;
+	    32:
+	        //grande
+	        "Data".status_robot_movement := TRUE;
+	        "DB_FB_Robot_0"(in_waypoint := 5,
+	                        in_speed := 10,
+	                        out_succes => #succes);
+	        IF #succes THEN
+	            "Data".steps_Robot := 4;
+	        END_IF;
+	    33:
+	        //pequeña
+	        "Data".status_robot_movement := TRUE;
+	        "DB_FB_Robot_0"(in_waypoint := 7,
+	                        in_speed := 10,
+	                        out_succes => #succes);
+	        IF #succes THEN
+	            "Data".steps_Robot := 4;
+	        END_IF;
+	        
+	        (*Cerrado de pinza*)
+	    4:
+	        "Data".status_robot_movement := TRUE;
+	        "DB_DQ".out_Picker := TRUE;
+	        IF "DB_DI".in_Picker THEN
+	            "Data".steps_Robot := 5;
+	        END_IF;
+	        
+	        (*Posicion volver*)
+	    5:
+	        "Data".status_robot_movement := TRUE;
+	        "DB_FB_Robot_0"(in_waypoint := 1,
+	                        in_speed := 10,
+	                        out_succes => #succes);
+	        IF #succes THEN
+	            "Data".steps_Robot := 6;
+	        END_IF;
+	        
+	        (*Posicion ir a zona de colocado*)
+	    6:
+	        "Data".status_robot_movement := TRUE;
+	        "DB_FB_Robot_0"(in_waypoint := 3,
+	                        in_speed := 10,
+	                        out_succes => #succes);
+	        //hay pallet y no hay caja puede colocar (tambien se comprueba que el storer no esta treabajando = posicion inicio)
+	        IF #succes AND NOT "DB_DI".in_PhCell_8 AND "DB_DI".in_PhCell_1 THEN
+	            IF "Data".fifo_boxes.Salidas.elemento = 1 THEN
+	                "Data".steps_Robot := 71;
+	            ELSIF "Data".fifo_boxes.Salidas.elemento = 2 THEN
+	                "Data".steps_Robot := 72;
+	            ELSIF "Data".fifo_boxes.Salidas.elemento = 3 THEN
+	                "Data".steps_Robot := 73;
+	            END_IF;
+	        END_IF;
+	        
+	        (*Posicion colocar*)
+	    71:
+	        //mediana
+	        "Data".status_robot_movement := TRUE;
+	        "DB_FB_Robot_0"(in_waypoint := 4,
+	                        in_speed := 10,
+	                        out_succes => #succes);
+	        IF #succes AND "DB_DI".in_PhCell_8 THEN
+	            "Data".steps_Robot := 8;
+	        END_IF;
+	    72:
+	        //grande
+	        "Data".status_robot_movement := TRUE;
+	        "DB_FB_Robot_0"(in_waypoint := 6,
+	                        in_speed := 10,
+	                        out_succes => #succes);
+	        IF #succes AND "DB_DI".in_PhCell_8 THEN
+	            "Data".steps_Robot := 8;
+	        END_IF;
+	    73:
+	        //pequeña
+	        "Data".status_robot_movement := TRUE;
+	        "DB_FB_Robot_0"(in_waypoint := 8,
+	                        in_speed := 10,
+	                        out_succes => #succes);
+	        IF #succes AND "DB_DI".in_PhCell_8 THEN
+	            "Data".steps_Robot := 8;
+	        END_IF;
+	        
+	        (*Apertura de pinza*)
+	    8:
+	        "Data".status_robot_movement := TRUE;
+	        "DB_DQ".out_Picker := FALSE;
+	        IF NOT "DB_DI".in_Picker THEN
+	            "Data".steps_Robot := 9;
+	        END_IF;
+	        
+	        (*Posicion volver*)
+	    9:
+	        "Data".status_robot_movement := TRUE;
+	        "DB_FB_Robot_0"(in_waypoint := 3,
+	                        in_speed := 10,
+	                        out_succes => #succes);
+	        IF #succes THEN
+	            "Data".steps_Robot := 2;
+	        END_IF;
+	        
+	        (*Etapa de paro*)
+	    99:
+	        "Data".status_robot_movement := FALSE;
+	        "DB_FB_Robot_0"(in_waypoint := 15,
+	                        in_speed := 0,
+	                        out_succes => #succes);
+	        
+	        
+	END_CASE;
+	
+	//Gestion del estop, se peude parar desde cualquier etapa
+	IF "DB_DI".in_SelStop THEN
+	    IF "Data".steps_Robot <> 99 THEN
+	        "Data".last_step_Robot := "Data".steps_Robot;
+	    END_IF;
+	    "Data".steps_Robot := 99;
+	END_IF;
+	
+	
+	
+END_FUNCTION
+

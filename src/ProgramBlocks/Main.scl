@@ -1,0 +1,98 @@
+﻿ORGANIZATION_BLOCK "Main"
+TITLE = "Main Program Sweep (Cycle)"
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+
+BEGIN
+	//Entradas
+	"FC_DI"();
+	//"FC_AI"();
+	
+	//Paro de emergencia
+	IF NOT "DB_DI".in_BtnEmergency AND "Data".steps_main > 0 THEN
+	    "Data".steps_main := 100;
+	END_IF;
+	
+	//Ciclo
+	CASE "Data".steps_main OF
+	        
+	        (*Etapa de espera de arranque, pulsar star para inicio, pulsar el boton de reset para vaciar las cintas*) 
+	    0:
+	        "DB_DQ".out_BeaconGreen := FALSE;
+	        "DB_DQ".out_BeaconYellow := TRUE;
+	        "DB_DQ".out_BeaconRed := FALSE;
+	        "Data".steps_BoxCoveyor := 0;
+	        IF "DB_DI".in_SelStart THEN
+	            "Data".steps_main := 1;
+	        END_IF;
+	        
+	        (*Etapa de inicio de ciclo paralelos*)
+	    1:
+	        "Data".steps_BoxCoveyor := "Data".last_step_BoxCoveyor;
+	        "Data".steps_PelletCoveyor := "Data".last_step_PalletCoveyor;
+	        "Data".steps_Robot := "Data".last_step_Robot;
+	        "Data".steps_Storer := "Data".last_step_Storer;
+	        "Data".steps_main := 2;
+	        
+	        (*Etapa de ejecucion de ciclos paralelos*)
+	    2:
+	        "DB_DQ".out_BeaconGreen := TRUE;
+	        "DB_DQ".out_BeaconYellow := FALSE;
+	        "DB_DQ".out_BeaconRed := FALSE;
+	        "cycle_BoxCoveyor"(); //Ciclo de entrada de cajas
+	        "cycle_PalletCoveyor"(); //Ciclo de entra de pallets
+	        "FC_MultyCoveyor"(); //Control de cintas transportadoras
+	        "FC_CapactitiveSensor"(); //Control de sensor capacitivo de distancias
+	        "cycle_Robot"(); //Ciclo del robot
+	        "cycle_Storer"(); //Ciclo del almacenadro
+	        
+	        
+	        (*Etapa de emergencia, se interrumpe todo movimiento y se espera al rearme*)
+	    100:
+	        "DB_DQ".out_BeaconRed := TRUE;
+	        "DB_DQ".out_BeaconGreen := FALSE;
+	        "DB_DQ".out_BeaconYellow := FALSE;
+	        //Pasar todos los ciclos a false
+	        "Data".status_box_movement := FALSE;
+	        "Data".status_pallet_movement := FALSE;
+	        "Data".status_robot_movement := FALSE;
+	        "Data".status_storer_movement := FALSE;
+	        //Parar la cintas transportadoras
+	        "DB_DQ".out_Cov_0 := FALSE;
+	        "DB_DQ".out_Cov_1 := FALSE;
+	        "DB_DQ".out_Cov_2 := FALSE;
+	        "DB_DQ".out_Cov_3 := FALSE;
+	        "DB_DQ".out_Cov_4 := FALSE;
+	        "DB_DQ".out_Cov_5 := FALSE;
+	        //Para el robot
+	        "DB_FB_Robot_0"(in_waypoint := 15,
+	                        in_speed := 0);
+	        //Para el alamacen
+	        "DB_FB_Storer_0"(in_manual := TRUE,
+	                         in_manualHorizontalPoint := "DB_AI".ina_HorizontalAxis,
+	                         in_manualVeticalPoint := "DB_AI".ina_VerticalAxis);
+	        //Guardar los estados de los ciclos
+	        "Data".last_step_BoxCoveyor := "Data".steps_BoxCoveyor;
+	        "Data".last_step_PalletCoveyor := "Data".steps_PelletCoveyor;
+	        "Data".last_step_Robot := "Data".steps_Robot;
+	        "Data".last_step_Storer := "Data".steps_Storer;
+	        //COmprobbar la seguridad de la mauiana
+	        IF NOT "Data".status_box_movement AND NOT "Data".status_pallet_movement AND NOT "Data".status_robot_movement AND NOT "Data".status_storer_movement THEN
+	            "Data".steps_main := 101;
+	        END_IF;
+	        
+	        (*Etapa de rearme, si se cumplen las condiciones de seguridad se deja rearmar y se espera al inicio*)
+	    101:
+	        IF "DB_DI".in_BtnReset AND "DB_DI".in_BtnEmergency AND "DB_DI".in_SelStop THEN
+	            "Data".steps_main := 0;
+	        END_IF;
+	        
+	        
+	END_CASE;
+	
+	//Salidas
+	"FC_DQ"();
+	//"FC_AQ"();
+	
+END_ORGANIZATION_BLOCK
+

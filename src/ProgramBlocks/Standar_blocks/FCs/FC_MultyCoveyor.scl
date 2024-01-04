@@ -1,0 +1,78 @@
+﻿FUNCTION "FC_MultyCoveyor" : Void
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+
+BEGIN
+	
+	
+	//Sesnores para cintas de pallets
+	"DB_FB_Coveyor_0"(in_sensor_in := "DB_DI".PhCell_0_p,
+	                  in_sensor_out := "DB_DI".PhCell_1_n);
+	"DB_FB_Coveyor_4"(in_sensor_in := "DB_DI".PhCell_1_p,
+	                  in_sensor_out := "DB_DI".PhCell_7_p);
+	"DB_FB_Coveyor_5"(in_sensor_in := "DB_DI".PhCell_6_p,
+	                  in_sensor_out := "DB_DI".PhCell_7_p);
+	
+	//Sensores para cintas de cajas
+	"DB_FB_Coveyor_1"(in_sensor_in:="DB_DI".PhCell_2_p,
+	                  in_sensor_out:="DB_DI".PhCell_3_n);
+	"DB_FB_Coveyor_2"(in_sensor_in:="DB_DI".PhCell_3_p,
+	                  in_sensor_out:="DB_DI".PhCell_4_n);
+	"DB_FB_Coveyor_3"(in_sensor_in:="DB_DI".PhCell_4_p,
+	                  in_sensor_out:="DB_DI".PhCell_5_n);
+	
+	
+	//Si se dan las condicione empezar el movimineto en paralelo de las cintas
+	
+	//Cintas del ciclode de entrada de cajas
+	IF "Data".status_box_movement THEN
+	    IF "DB_FB_Coveyor_1".busy THEN
+	        "DB_DQ".out_Cov_1 := TRUE;
+	    ELSE
+	        "DB_DQ".out_Cov_1 := FALSE;
+	    END_IF;
+	    IF "DB_FB_Coveyor_2".busy THEN
+	        "DB_DQ".out_Cov_2 := TRUE;
+	    ELSE
+	        "DB_DQ".out_Cov_2 := FALSE;
+	    END_IF;
+	    IF "DB_FB_Coveyor_3".busy THEN
+	        "DB_DQ".out_Cov_3 := TRUE;
+	    ELSE
+	        "DB_DQ".out_Cov_3 := FALSE;
+	    END_IF;
+	ELSE
+	    "DB_DQ".out_Cov_1 := FALSE;
+	    "DB_DQ".out_Cov_2 := FALSE;
+	    "DB_DQ".out_Cov_3 := FALSE;
+	END_IF;
+	
+	//Cintas del ciclo de entrada de pallets
+	IF "Data".status_pallet_movement THEN
+	    IF "DB_FB_Coveyor_0".busy THEN
+	        "DB_DQ".out_Cov_0 := TRUE;
+	    ELSE
+	        "DB_DQ".out_Cov_0 := FALSE;
+	    END_IF;
+	    IF "DB_FB_Coveyor_4".busy THEN
+	        "DB_DQ".out_Cov_4 := TRUE;
+	    ELSE
+	        "DB_DQ".out_Cov_4 := FALSE;
+	    END_IF;
+	ELSE
+	    "DB_DQ".out_Cov_0 := FALSE;
+	    "DB_DQ".out_Cov_4 := FALSE;
+	END_IF;
+	
+	//Cintas del ciclo del almacenador
+	IF NOT "Data".status_storer_movement THEN
+	    IF "DB_FB_Coveyor_5".busy THEN
+	        "DB_DQ".out_Cov_5 := TRUE;
+	    ELSE
+	        "DB_DQ".out_Cov_5 := FALSE;
+	    END_IF;
+	ELSE
+	    "DB_DQ".out_Cov_5 := FALSE;
+	END_IF;
+END_FUNCTION
+

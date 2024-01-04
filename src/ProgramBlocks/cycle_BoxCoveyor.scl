@@ -1,0 +1,67 @@
+﻿FUNCTION "cycle_BoxCoveyor" : Void
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+
+BEGIN
+	
+	//Ciclo de cintas transportadoras de entrada de cajas
+	CASE "Data".steps_BoxCoveyor OF
+	        
+	        (*Etapa de inicio de ciclo, se generan los objetos en las cintas*)
+	    1:
+	        IF NOT "DB_DI".in_PhCell_2 AND NOT "DB_FB_Coveyor_1".busy THEN
+	            "DB_DQ".out_GenBox := TRUE;
+	        END_IF;
+	        IF "DB_DI".in_PhCell_2 OR "DB_FB_Coveyor_1".busy THEN
+	            "Data".steps_BoxCoveyor := 2;
+	        END_IF;
+	        
+	        (*Etapa de inicio de movimiento, siempre que alguna cinta se encuetre con trabajo se inicia*)
+	    2:
+	        IF "DB_FB_Coveyor_1".busy OR "DB_FB_Coveyor_2".busy OR "DB_FB_Coveyor_3".busy THEN
+	            "Data".status_box_movement := TRUE;
+	            IF "DB_DQ".out_Cov_1 OR "DB_DQ".out_Cov_2 OR "DB_DQ".out_Cov_3 THEN
+	                "Data".steps_BoxCoveyor := 3;
+	            END_IF;
+	        END_IF;
+	        
+	        (*Etapa de movimiento principal, se generan objetos y se mantien el movimiento, hasta el paro*)
+	    3:
+	        "DB_DQ".out_GenBox := FALSE;
+	        "Data".status_box_movement := TRUE;
+	        IF NOT "DB_DI".in_PhCell_2 AND NOT "DB_FB_Coveyor_1".busy THEN
+	            "DB_DQ".out_GenBox := TRUE;
+	        END_IF;
+	        IF "DB_DI".in_PhCell_3 THEN
+	            "Data".steps_BoxCoveyor := 3;
+	        END_IF;
+	        IF "DB_DI".PhCell_5_p THEN
+	            "Data".steps_BoxCoveyor := 4;
+	        END_IF;
+	        IF "DB_DI".in_SelStop THEN
+	            "Data".last_step_BoxCoveyor := "Data".steps_BoxCoveyor;
+	            "Data".steps_BoxCoveyor := 99;
+	        END_IF;
+	        
+	        (*Etapa de espera al robot, para esperar al ciclo del robot*)  
+	    4:
+	        "Data".status_box_movement := FALSE;
+	        IF "DB_DI".PhCell_5_n THEN
+	            "Data".status_box_movement := TRUE;
+	            "Data".steps_BoxCoveyor := 3;
+	        END_IF;
+	        IF "DB_DI".in_SelStop THEN
+	            "Data".last_step_BoxCoveyor := "Data".steps_BoxCoveyor;
+	            "Data".steps_BoxCoveyor := 99;
+	        END_IF;
+	        
+	        (*Etapa de paro, se para la maquina y se espera a volver a pulsar inicio*)
+	    99:
+	        "Data".status_box_movement := FALSE;
+	        IF NOT "DB_DQ".out_Cov_1 AND NOT "DB_DQ".out_Cov_2 AND NOT "DB_DQ".out_Cov_3 THEN
+	            "Data".steps_main := 0;
+	        END_IF;
+	        
+	END_CASE;
+END_FUNCTION
+

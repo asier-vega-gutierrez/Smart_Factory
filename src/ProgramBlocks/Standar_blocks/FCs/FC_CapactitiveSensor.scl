@@ -1,0 +1,41 @@
+﻿FUNCTION "FC_CapactitiveSensor" : Void
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+   VAR_TEMP 
+      analog_data : Real;
+   END_VAR
+
+
+BEGIN
+	
+	
+	//En funcion de las mediads devueltas por el sensor se añade un unmero distinto a la lista fifo
+	IF "DB_AI".ina_InductiveResult < 1900.0 AND "Data".status_capacitive_ready THEN
+	    "Data".status_capacitive_ready := FALSE;
+	    //1 mediana
+	    IF "DB_AI".ina_InductiveResult < 1700 AND "DB_AI".ina_InductiveResult > 1400 THEN
+	        "Data".fifo_boxes.Entrada.inserccion := TRUE;
+	        "Data".fifo_boxes.Entrada.elemento := 1;
+	        "FC_Fifo"("Data".fifo_boxes);
+	    END_IF;
+	    //2 grande
+	    IF "DB_AI".ina_InductiveResult < 1400 AND "DB_AI".ina_InductiveResult > 1000 THEN
+	        "Data".fifo_boxes.Entrada.inserccion := TRUE;
+	        "Data".fifo_boxes.Entrada.elemento := 2;
+	        "FC_Fifo"("Data".fifo_boxes);
+	    END_IF;
+	    //3 pequeña
+	    IF "DB_AI".ina_InductiveResult < 1900 AND "DB_AI".ina_InductiveResult > 1700 THEN
+	        "Data".fifo_boxes.Entrada.inserccion := TRUE;
+	        "Data".fifo_boxes.Entrada.elemento := 3;
+	        "FC_Fifo"("Data".fifo_boxes);
+	    END_IF;
+	    "Data".fifo_boxes.Entrada.inserccion := FALSE;
+	END_IF;
+	
+	//Para que solo rellene la lista una vez los ciclos de escan que detecte una caja se establece el valor a TRUE cuando el sensor detecta la cinta
+	IF "DB_AI".ina_InductiveResult > 1900.0 THEN
+	    "Data".status_capacitive_ready := True;
+	END_IF;
+END_FUNCTION
+

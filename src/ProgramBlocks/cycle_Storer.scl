@@ -1,0 +1,129 @@
+﻿FUNCTION "cycle_Storer" : Void
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+   VAR_TEMP 
+      ocupied : Bool;
+      succes : Bool;
+   END_VAR
+
+
+BEGIN
+	
+	
+	"Data".timers[1].TON(IN := "Data".time_trigers[1],
+	                     PT := T#1s);
+	
+	"Data".timers[2].TON(IN := "Data".time_trigers[2],
+	                     PT := T#3s);
+	
+	CASE "Data".steps_Storer OF
+	        
+	        (*Etpa de vuelta a la aposicion original*)
+	    1:
+	        "Data".status_storer_movement := FALSE;
+	        "DB_DQ".out_BladesBackward := FALSE;
+	        "DB_DQ".out_BladesForward := FALSE;
+	        "DB_FB_Storer_0"(in_manual := TRUE,
+	                         in_manualHorizontalPoint := 0,
+	                         in_manualVeticalPoint := 0,
+	                         out_succes => #succes);
+	        IF NOT "DB_DI".in_PhCell_7 AND #succes THEN
+	            "Data".steps_Storer := 2;
+	        END_IF;
+	        
+	        (*Etapa de espera a entrada de pallet*)
+	    2:
+	        "DB_DQ".out_BladesBackward := TRUE;
+	        "DB_DQ".out_BladesForward := FALSE;
+	        IF "DB_DI".PhCell_7_p THEN
+	            "Data".steps_Storer := 3;
+	        END_IF;
+	        
+	        (*Etapa de cojidad de pallet*)
+	    3:
+	        "Data".status_storer_movement := TRUE;
+	        "DB_FB_Storer_0"(in_manual := TRUE,
+	                         in_manualHorizontalPoint := 0,
+	                         in_manualVeticalPoint := 0.5,
+	                         out_succes => #succes);
+	        IF #succes THEN
+	            "Data".steps_Storer := 4;
+	        END_IF;
+	        
+	        (*Etapa de retraccion de aspas*)
+	    4:
+	        "DB_DQ".out_BladesBackward := FALSE;
+	        "DB_DQ".out_BladesForward := FALSE;
+	        "Data".time_trigers[1] := TRUE;
+	        IF "Data".timers[1].Q THEN
+	            "Data".time_trigers[1] := FALSE;
+	            "Data".steps_Storer := 5;
+	        END_IF;
+	        
+	        (*Etapa de busqueda de posiscionlibre, si no hay se pasa a stop y se espera a la recojida manual*)
+	    5:
+	        "DB_FB_Storer_0"(in_manual := FALSE,
+	                         out_ocupied => #ocupied,
+	                         out_succes => #succes);
+	        "Data".steps_Storer := 6;
+	        IF #ocupied THEN
+	            "Data".steps_Storer := 99;
+	        END_IF;
+	        
+	        (*Etapa para darle tiempoa a llevar la caja*)
+	    6:
+	        "Data".time_trigers[2] := TRUE;
+	        IF "Data".timers[2].Q THEN
+	            "Data".time_trigers[2] := FALSE;
+	            "Data".steps_Storer := 7;
+	        END_IF;
+	        
+	        (*Etapa para extender las aspas*)
+	    7:
+	        "DB_DQ".out_BladesBackward := FALSE;
+	        "DB_DQ".out_BladesForward := TRUE;
+	        "Data".time_trigers[1] := TRUE;
+	        IF "Data".timers[1].Q THEN
+	            "Data".time_trigers[1] := FALSE;
+	            "Data".steps_Storer := 8;
+	        END_IF;
+	        
+	        (*Etapa apra colcolar el pallet en la estanteria*)
+	    8:
+	        "Data".status_storer_movement := TRUE;
+	        "DB_FB_Storer_0"(in_manual := TRUE,
+	                         in_manualHorizontalPoint := "DB_AI".ina_HorizontalAxis,
+	                         in_manualVeticalPoint := "DB_AI".ina_VerticalAxis - 0.2,
+	                         out_succes => #succes);
+	        "Data".steps_Storer := 9;
+	        
+	        (*Etapa para recojer las aspas*)
+	    9:
+	        "DB_DQ".out_BladesBackward := FALSE;
+	        "DB_DQ".out_BladesForward := FALSE;
+	        "Data".time_trigers[1] := TRUE;
+	        IF "Data".timers[1].Q THEN
+	            "Data".time_trigers[1] := FALSE;
+	            "Data".steps_Storer := 1;
+	        END_IF;
+	        
+	        (*Etapa de paro, se deve finalizar el movimiento de viaje si ya se planificado uno*)
+	    99:
+	        "Data".status_storer_movement := FALSE;
+	        "DB_FB_Storer_0"(in_manual := TRUE,
+	                         in_manualHorizontalPoint := "DB_AI".ina_HorizontalAxis,
+	                         in_manualVeticalPoint := "DB_AI".ina_VerticalAxis,
+	                         out_succes => #succes);
+	        
+	END_CASE;
+	
+	//Gestion del estop, se peude parar desde cualquier etapa
+	IF "DB_DI".in_SelStop THEN
+	    IF "Data".steps_Storer <> 99 THEN
+	        "Data".last_step_Storer := "Data".steps_Storer;
+	    END_IF;
+	    "Data".steps_Storer := 99;
+	END_IF;
+	
+END_FUNCTION
+
