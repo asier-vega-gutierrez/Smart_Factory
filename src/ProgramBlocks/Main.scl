@@ -7,6 +7,8 @@ BEGIN
 	//Entradas
 	"FC_DI"();
 	//"FC_AI"();
+	"FC_MoveToExternalData"();
+	
 	
 	//Paro de emergencia
 	IF NOT "DB_DI".in_BtnEmergency AND "Data".steps_main > 0 THEN

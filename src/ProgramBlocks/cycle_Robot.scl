@@ -36,6 +36,11 @@ BEGIN
 	            "FC_Fifo"("Data".fifo_boxes);
 	            "Data".fifo_boxes.Entrada.extraccion := FALSE;
 	            //En funcion de esta clasiicacion se realiza un movimiento u otro
+	            //Inportante cargar el valor de salida a la fifo del alamcenador
+	            "Data".fifo_storer.Entrada.inserccion := TRUE;
+	            "Data".fifo_storer.Entrada.elemento := "Data".fifo_boxes.Salidas.elemento;
+	            "FC_Fifo"("Data".fifo_storer);
+	            //realizar la comparecion del valor de salida
 	            IF "Data".fifo_boxes.Salidas.elemento = 1 THEN
 	                "Data".steps_Robot := 31;
 	            ELSIF "Data".fifo_boxes.Salidas.elemento = 2 THEN

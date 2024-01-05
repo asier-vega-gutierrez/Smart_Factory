@@ -2,7 +2,7 @@
 { S7_Optimized_Access := 'TRUE' }
 VERSION : 0.1
    VAR_INPUT 
-      in_storer : Array[0..5] of "udt_StoreRow";
+      in_storer : Array[0..4] of "udt_StoreRow";
    END_VAR
 
    VAR_OUTPUT 
@@ -22,7 +22,7 @@ VERSION : 0.1
 BEGIN
 	
 	//Se recorre las posiciones del array doble buscando el primer hueco libre desde abajo
-	FOR #cnt_for_0 := 5 TO 0 BY -1 DO
+	FOR #cnt_for_0 := 4 TO 0 BY -1 DO
 	    #row := #in_storer[#cnt_for_0];
 	    FOR #cnt_for_1 := 5 TO 0 BY -1 DO
 	        IF #row.places[#cnt_for_1] = FALSE THEN

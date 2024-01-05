@@ -14,7 +14,7 @@ BEGIN
 	                     PT := T#1s);
 	
 	"Data".timers[2].TON(IN := "Data".time_trigers[2],
-	                     PT := T#3s);
+	                     PT := T#10s);
 	
 	CASE "Data".steps_Storer OF
 	        
