@@ -1,0 +1,20 @@
+[default]
+  url = "http://localhost:8086"
+  token = "9qA5BmiKx7tBU23NGbUJVTQE8uyn6E947gA36pSTM7JU5G-MIoxyIPlCGTZLwEAhULVGO-KFvUjKQDLXqbvGVA=="
+  org = "casita"
+  active = true
+# 
+# [eu-central]
+#   url = "https://eu-central-1-1.aws.cloud2.influxdata.com"
+#   token = "XXX"
+#   org = ""
+# 
+# [us-central]
+#   url = "https://us-central1-1.gcp.cloud2.influxdata.com"
+#   token = "XXX"
+#   org = ""
+# 
+# [us-west]
+#   url = "https://us-west-2-1.aws.cloud2.influxdata.com"
+#   token = "XXX"
+#   org = ""

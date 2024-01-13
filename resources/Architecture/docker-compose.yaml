@@ -1,0 +1,61 @@
+version: "3.0" 
+
+services: 
+  
+  #Servicio de rabbitmq
+  rabbitmq:
+    container_name: rabbitmq
+    #image: rabbitmq:3-management
+    build: ./RabbitMQ/
+    restart: always
+    environment:
+      RABBITMQ_DEFAULT_USER: "guest"
+      RABBITMQ_DEFAULT_PASS: "guest"
+    ports:
+      - "1883:1883"  # Puerto por defecto MQTT
+      - "15672:15672"  # Puerto de la consola de gestion
+      - "5672:5672"
+    networks:
+      - iot-net
+    volumes: #host:container
+      - ./RabbitMQ/data/:/var/lib/rabbitmq/
+      - ./RabbitMQ/log/:/var/log/rabbitmq
+
+  #Servicion de telegraf
+  telegraf:
+    container_name: telegraf
+    image: docker.io/telegraf:latest
+    restart: always
+    networks:
+      - iot-net
+    volumes:
+      - ./Telegraf/conf/telegraf.conf:/etc/telegraf/telegraf.conf:ro #el :ro sirve para que el contenedor no pueda editar el archvio
+      - ./Telegraf/logs:/var/log/telegraf
+    depends_on:
+      - influxdb
+      - rabbitmq
+
+  #Servicio de influxdb
+  influxdb:
+    container_name: influxdb      
+    image: influxdb:2.7.5
+    restart: always
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup # para que al iniciar se configure
+      - DOCKER_INFLUXDB_INIT_USERNAME=admin 
+      - DOCKER_INFLUXDB_INIT_PASSWORD=admin1234
+      - DOCKER_INFLUXDB_INIT_BUCKET=iotbucket
+      - DOCKER_INFLUXDB_INIT_ORG=casita
+      - DOCKER_INFLUXDB_INIT_RETENTION=1w # se mantiene los datos una semana
+      - DOCKER_INFLUXDB_HTTP_AUTH_ENABLED=false # Disable token authentication
+    ports:
+      - '8086:8086'
+    networks:
+      - iot-net
+    volumes:
+      - './InfluxDB/data:/var/lib/influxdb2'
+      - './InfluxDB/config:/etc/influxdb2'
+
+#Redes
+networks:
+  iot-net:
