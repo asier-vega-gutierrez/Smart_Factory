@@ -1,0 +1,77 @@
+{
+   "timestamp":1704961537849,
+   "values":[
+      {
+         "id":"Siemens TCP/IP Ethernet.PLC1500_192_168_100_51.Sensors.in_BeaconGreen",
+         "v":false
+      },
+      {
+         "id":"Siemens TCP/IP Ethernet.PLC1500_192_168_100_51.Sensors.in_PhCell_7",
+         "v":false
+      },
+      {
+         "id":"Siemens TCP/IP Ethernet.PLC1500_192_168_100_51.Sensors.in_PhCell_1",
+         "v":false
+      },
+      {
+         "id":"Siemens TCP/IP Ethernet.PLC1500_192_168_100_51.Sensors.in_PhCell_2",
+         "v":false
+      },
+      {
+         "id":"Siemens TCP/IP Ethernet.PLC1500_192_168_100_51.Sensors.in_PhCell_0",
+         "v":false
+      },
+      {
+         "id":"Siemens TCP/IP Ethernet.PLC1500_192_168_100_51.Sensors.in_PhCell_5",
+         "v":false
+      },
+      {
+         "id":"Siemens TCP/IP Ethernet.PLC1500_192_168_100_51.Sensors.in_PhCell_6",
+         "v":false
+      },
+      {
+         "id":"Siemens TCP/IP Ethernet.PLC1500_192_168_100_51.Sensors.in_PhCell_3",
+         "v":false
+      },
+      {
+         "id":"Siemens TCP/IP Ethernet.PLC1500_192_168_100_51.Sensors.in_PhCell_4",
+         "v":false
+      },
+      {
+         "id":"Siemens TCP/IP Ethernet.PLC1500_192_168_100_51.Sensors.in_BtnEmergency",
+         "v":false
+      },
+      {
+         "id":"Siemens TCP/IP Ethernet.PLC1500_192_168_100_51.Sensors.in_BeaconRed",
+         "v":false
+      },
+      {
+         "id":"Siemens TCP/IP Ethernet.PLC1500_192_168_100_51.Sensors.in_BeaconYellow",
+         "v":true
+      },
+      {
+         "id":"Siemens TCP/IP Ethernet.PLC1500_192_168_100_51.Sensors.in_BtnReset",
+         "v":false
+      },
+      {
+         "id":"Siemens TCP/IP Ethernet.PLC1500_192_168_100_51.Sensors.in_Capacitive",
+         "v":false
+      },
+      {
+         "id":"Siemens TCP/IP Ethernet.PLC1500_192_168_100_51.Sensors.in_PhCell_8",
+         "v":false
+      },
+      {
+         "id":"Siemens TCP/IP Ethernet.PLC1500_192_168_100_51.Sensors.in_SelStart",
+         "v":false
+      },
+      {
+         "id":"Siemens TCP/IP Ethernet.PLC1500_192_168_100_51.Sensors.in_SelStop",
+         "v":false
+      },
+      {
+         "id":"Siemens TCP/IP Ethernet.PLC1500_192_168_100_51.Sensors.in_Picker",
+         "v":false
+      }
+   ]
+}

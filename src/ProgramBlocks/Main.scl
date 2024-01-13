@@ -95,6 +95,8 @@ BEGIN
 	//Salidas
 	"FC_DQ"();
 	//"FC_AQ"();
+	"FC_LMQTT"();
+	
 	
 END_ORGANIZATION_BLOCK
 

@@ -1,0 +1,39 @@
+#    [[inputs.mqtt_consumer.json_v2.tag]]
+#      path = "values.#.id"
+#    [[inputs.mqtt_consumer.json_v2.field]]
+#      path = "values.#.v"
+#      type = "bool"
+
+{
+   "timestamp":1704961501840,
+   "values":[
+      {
+         "id":"Siemens TCP/IP Ethernet.PLC1500_192_168_100_51.Sensors.ina_HorizontalAxis",
+         "v":0
+      },
+      {
+         "id":"Siemens TCP/IP Ethernet.PLC1500_192_168_100_51.Sensors.ina_BaseAxis",
+         "v":0
+      },
+      {
+         "id":"Siemens TCP/IP Ethernet.PLC1500_192_168_100_51.Sensors.ina_VerticalAxis",
+         "v":0
+      },
+      {
+         "id":"Siemens TCP/IP Ethernet.PLC1500_192_168_100_51.Sensors.ina_InductiveResult",
+         "v":0
+      },
+      {
+         "id":"Siemens TCP/IP Ethernet.PLC1500_192_168_100_51.Sensors.ina_Arm2Axis",
+         "v":0
+      },
+      {
+         "id":"Siemens TCP/IP Ethernet.PLC1500_192_168_100_51.Sensors.ina_Arm1Axis",
+         "v":0
+      },
+      {
+         "id":"Siemens TCP/IP Ethernet.PLC1500_192_168_100_51.Sensors.ina_Arm3Axis",
+         "v":0
+      }
+   ]
+}
