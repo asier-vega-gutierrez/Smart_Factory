@@ -1,4 +1,4 @@
-## Desarrollo de aplicación IIoT para reocojida de datos de mauinas
+## Desarrollo de aplicación IIoT para reocojida de datos de maquinas
 <ul>
     <li>Fechas: Diciembre-Enero 2024</li>
     <li>Descripción: Partiendo de un gemelo digital en Machines Simulator y su programación en un PLC siemens 1500. Se realiza la comunicación vía OPC a un IPC (industrial PC), empleado el servidor OPC KepserverEX, este mapea las entradas del PLC. En este IPC no solo se ubica el servidor OPC, si no también un sistema SCADA (WinCC). Esta parte conforma la red Profinet + OPC en tiempo real de la parte OT de la fábrica.
