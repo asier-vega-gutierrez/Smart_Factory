@@ -6,5 +6,5 @@ El servidor IPC también es el encargado de separar las variables booleanas y re
 Mediante dos consumidores MQTT en Telegraf se transfieren los datos a la base de datos de series temporales InfluxDB.Este parte conforma la red IT donde se almacenan los datos para su posterior uso. 
 </li>
     <li>Imagen resumen:</li>
-  ![alt text](https://github.com/asier-vega-gutierrez/SmartFactory/blob/main/net.png?raw=true)
 </ul>
+  ![alt text](https://github.com/asier-vega-gutierrez/SmartFactory/blob/main/net.png?raw=true)
