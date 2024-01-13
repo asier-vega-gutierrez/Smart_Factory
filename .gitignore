@@ -1,2 +1,2 @@
-./resources/Architecture/InfluxDB/data
-./resources/Architecture/RabbitMQ/data
+/resources/Architecture/InfluxDB/data
+/resources/Architecture/RabbitMQ/data
