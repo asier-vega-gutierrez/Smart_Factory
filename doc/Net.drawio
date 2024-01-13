@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2024-01-13T11:19:29.664Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" etag="1dp6xs_8rRNXjOpWC2IM" version="22.1.18" type="google">
+<mxfile host="app.diagrams.net" modified="2024-01-13T11:23:52.418Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" etag="0s14uQy76zDGeOicXw4Q" version="22.1.18" type="google">
   <diagram name="Página-1" id="AxUZ8k7uin5-6qPjaP3e">
     <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -114,7 +114,7 @@
         <mxCell id="HEtLlCoucZmg6A9LjXup-32" value="Non Real Time Network" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" vertex="1" parent="1">
           <mxGeometry x="335" y="342" width="140" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="HEtLlCoucZmg6A9LjXup-33" value="Ethernet Network&lt;br&gt;KepServerEx published topics: &quot;storagesystem_bool&quot; &quot;storegesystem_float&quot;&amp;nbsp;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+        <mxCell id="HEtLlCoucZmg6A9LjXup-33" value="Ethernet Network (OT-IT comunication)&lt;br&gt;KepServerEx published topics: &quot;storagesystem_bool&quot; &quot;storegesystem_float&quot;&amp;nbsp;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
           <mxGeometry x="280.76" y="376" width="246.49" height="30" as="geometry" />
         </mxCell>
         <mxCell id="HEtLlCoucZmg6A9LjXup-35" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
@@ -155,6 +155,12 @@
             <mxPoint x="279" y="529" as="sourcePoint" />
             <mxPoint x="343" y="529" as="targetPoint" />
           </mxGeometry>
+        </mxCell>
+        <mxCell id="kIOb1pSA4z_GyIRZlFgS-1" value="OT" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="19" y="80" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="kIOb1pSA4z_GyIRZlFgS-2" value="IT" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="19" y="614" width="60" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
