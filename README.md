@@ -7,4 +7,5 @@ Mediante dos consumidores MQTT en Telegraf se transfieren los datos a la base de
 </li>
     <li>Imagen resumen:</li>
 </ul>
-  ![foto](https://github.com/asier-vega-gutierrez/SmartFactory/blob/main/net.png)
+
+![foto](https://github.com/asier-vega-gutierrez/SmartFactory/blob/main/net.png)
